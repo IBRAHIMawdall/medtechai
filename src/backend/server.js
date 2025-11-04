@@ -17,6 +17,18 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 
+// --- GLOBAL ERROR TRAP ---
+process.on('uncaughtException', (error, origin) => {
+    console.error('致命的な例外が発生しました:', error);
+    console.error('発生元:', origin);
+    process.exit(1);
+});
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('ハンドルされていない Promise 拒否:', promise, '理由:', reason);
+    process.exit(1);
+});
+// --- END TRAP ---
+
 // Health check endpoint for Render
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'UP', timestamp: new Date().toISOString() });
