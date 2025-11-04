@@ -65,12 +65,13 @@ const logger = winston.createLogger({
   ]
 });
 
-// Add console transport for development
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: consoleFormat
-  }));
-}
+// Always log to the console. In production, Render/Docker will capture the stdout stream.
+logger.add(new winston.transports.Console({
+    format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+    ),
+}));
 
 // Custom logging methods
 logger.securityLog = (message, metadata = {}) => {
