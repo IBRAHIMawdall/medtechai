@@ -7,38 +7,10 @@ class CacheService {
   }
 
   async connect() {
-    if (this.connected && this.client) {
-      return this.client;
-    }
-
-    try {
-      this.client = createClient({
-        url: process.env.REDIS_URL || 'redis://localhost:6379',
-        socket: {
-          reconnectStrategy: (retries) => {
-            if (retries > 10) {
-              console.log('Too many Redis reconnection attempts, giving up');
-              return new Error('Too many retries');
-            }
-            return Math.min(retries * 100, 3000);
-          }
-        }
-      });
-
-      this.client.on('error', (err) => console.error('Redis Client Error:', err));
-      this.client.on('connect', () => console.log('Redis connecting...'));
-      this.client.on('ready', () => {
-        console.log('Redis connected successfully');
-        this.connected = true;
-      });
-
-      await this.client.connect();
-      return this.client;
-    } catch (error) {
-      console.error('Redis connection error:', error);
-      this.connected = false;
-      return null;
-    }
+    // Redis disabled for deployment
+    console.log('Redis caching disabled - using memory cache');
+    this.connected = false;
+    return null;
   }
 
   async get(key) {
