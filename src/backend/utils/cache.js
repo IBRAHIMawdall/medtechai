@@ -104,10 +104,8 @@ class CacheService {
   }
 
   async close() {
-    if (this.client) {
-      await this.client.quit();
-      this.connected = false;
-    }
+    // Redis disabled - no cleanup needed
+    this.connected = false;
   }
 }
 
