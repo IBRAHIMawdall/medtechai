@@ -7,12 +7,10 @@
     "npm": ">=10.0.0"
   },
   "main": "src/backend/server.js",
-  "workspaces": [
-    "src/backend"
-  ],
   "scripts": {
-    "start": "npm start --workspace=medtechai-backend",
-    "dev": "npm run dev --workspace=medtechai-backend"
+    "start": "cd src/backend && npm start",
+    "dev": "cd src/backend && npm run dev",
+    "install": "cd src/backend && npm install"
   },
   "keywords": [
     "medical",
@@ -27,6 +25,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/medtechai-platform.git"
+    "url": "https://github.com/IBRAHIMawdall/medtechai.git"
   }
 }
