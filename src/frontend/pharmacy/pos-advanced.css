@@ -1,0 +1,133 @@
+.search-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.search-filters select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  background: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #3498db;
+  color: white;
+}
+
+.customer-info {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.customer-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.discount-section {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.discount-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.discount-controls input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.discount-controls select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.discount-controls button {
+  padding: 0.5rem 1rem;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: #e74c3c !important;
+  color: white;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #3498db;
+  color: #3498db;
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.pos-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.product-card {
+  position: relative;
+}
+
+.product-card.low-stock {
+  border-color: #e74c3c;
+  background: #fdf2f2;
+}
+
+.product-card.expiring-soon {
+  border-color: #f39c12;
+  background: #fef9e7;
+}
+
+.stock-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #e74c3c;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+}
+
+.stock-badge.low {
+  background: #e74c3c;
+}
+
+.stock-badge.medium {
+  background: #f39c12;
+}
+
+.stock-badge.high {
+  background: #27ae60;
+}

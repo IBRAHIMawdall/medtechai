@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Page Not Found • MedTechAI</title>
+  <link rel="canonical" href="https://medtechai.net/404">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --secondary: #06b6d4;
+      --accent: #10b981;
+      --text: #0f172a;
+      --muted: #64748b;
+      --bg: #ffffff;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 10% 10%, #f0f9ff 0%, #ffffff 40%),
+                  radial-gradient(800px 400px at 90% 10%, #ecfeff 0%, #ffffff 40%);
+    }
+    .container { min-height: 100%; display: grid; place-items: center; padding: 24px; }
+    .card {
+      max-width: 720px;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      padding: 20px 24px; border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+    .brand svg { width: 28px; height: 28px; }
+    .brand .name { font-weight: 700; letter-spacing: 0.2px; }
+    .content { padding: 32px 24px; }
+    h1 { font-size: 28px; margin: 0 0 12px; }
+    p { color: var(--muted); margin: 0 0 20px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; text-decoration: none; }
+    .btn-primary { background: var(--gradient); color: #fff; }
+    .btn-outline { border: 1px solid #e2e8f0; color: var(--text); background: #fff; }
+    .tips { margin-top: 22px; font-size: 14px; color: var(--muted); }
+    .code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: #f1f5f9; padding: 2px 6px; border-radius: 6px; }
+    .footer { padding: 16px 24px; border-top: 1px solid #e2e8f0; background: #f8fafc; color: var(--muted); font-size: 13px; }
+    .logo {
+      background: var(--gradient);
+      border-radius: 8px;
+      padding: 6px; display: grid; place-items: center;
+    }
+    .logo svg { color: #fff; }
+    .home-link { color: var(--text); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <main class="container" role="main">
+    <section class="card" aria-labelledby="title">
+      <header class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18" rx="5" fill="currentColor"/>
+            <path d="M12 6v12M6 12h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <a class="home-link" href="/" aria-label="Go to MedTechAI Home">
+          <strong class="name">MedTechAI</strong>
+        </a>
+      </header>
+      <div class="content">
+        <h1 id="title">Page Not Found</h1>
+        <p>The page you are looking for doesn’t exist or may have moved. Please check the URL or return to the homepage.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 10l9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9Z" stroke="#fff" stroke-width="2"/></svg>
+            Back to Home
+          </a>
+          <a class="btn btn-outline" href="/#contact">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z" stroke="#0f172a" stroke-width="2"/></svg>
+            Contact Support
+          </a>
+        </div>
+        <div class="tips">
+          <p>Tip: If you believe this is an error, email <span class="code">support@medtechai.net</span> with the broken link.</p>
+        </div>
+      </div>
+      <footer class="footer" role="contentinfo">
+        &copy; 2025 MedTechAI. All rights reserved.
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Archive Retention Rules
+# Files in this archive folder can be deleted if older than 6 months
+# Keep only last 2 major versions
+
+# Backup Archives to Keep:
+1. Most recent production deployment package
+2. Most recent pre-deployment backup
+3. Critical configuration backups (never delete)
+
+# Archives Safe to Delete:
+- medtechai-backend.zip (root level)
+- medtechai-frontend.tar.gz (root level)
+- medtechai-backend.tar.gz (root level)
+- Any file with timestamp older than 6 months
+
+# Estimated Space to Recover: ~200MB
+

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Assistant Demo | MedTechAI</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .chat-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-header {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .message.user {
+            flex-direction: row-reverse;
+        }
+        .message-content {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            word-wrap: break-word;
+        }
+        .message.assistant .message-content {
+            background: white;
+            border: 1px solid #e2e8f0;
+        }
+        .message.user .message-content {
+            background: #0ea5e9;
+            color: white;
+        }
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .message.assistant .message-avatar {
+            background: #0ea5e9;
+            color: white;
+        }
+        .message.user .message-avatar {
+            background: #64748b;
+            color: white;
+        }
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .chat-input input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+        }
+        .chat-input button {
+            padding: 0.75rem 1.5rem;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .chat-input button:hover {
+            background: #0284c7;
+        }
+        .chat-input button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+        .typing-indicator {
+            display: none;
+            padding: 0.5rem 1rem;
+            color: #64748b;
+            font-style: italic;
+        }
+        .quick-questions {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .quick-questions h4 {
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        .question-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .question-btn {
+            padding: 0.5rem 1rem;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .question-btn:hover {
+            background: #e2e8f0;
+        }
+        .demo-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <a href="/">MedTechAI</a>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="/" data-analytics="nav-home">Home</a></li>
+                    <li><a class="nav-link" href="/about/" data-analytics="nav-about">About</a></li>
+                    <li><a class="nav-link" href="/services/" data-analytics="nav-services">Services</a></li>
+                    <li><a class="nav-link" href="/contact/" data-analytics="nav-contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="demo-container">
+        <div class="demo-header">
+            <h1>🤖 Advanced AI Medical Assistant</h1>
+            <p>Next-generation artificial intelligence for comprehensive healthcare support</p>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>MedBot AI Assistant</h3>
+                <p>Ask me anything about symptoms, medications, or health concerns</p>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message assistant">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">
+                        Hello! I'm your virtual medical assistant. I can help you with:
+                        <br>• Symptom analysis and guidance
+                        <br>• Medication information and interactions
+                        <br>• Health recommendations
+                        <br>• Emergency triage
+                        <br><br>How can I assist you today?
+                    </div>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                AI is typing...
+            </div>
+            
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Type your medical question here..." maxlength="500">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+
+        <div class="quick-questions">
+            <h4>Try these sample questions:</h4>
+            <div class="question-buttons">
+                <div class="question-btn" onclick="askQuestion('I have a headache and fever, what should I do?')">
+                    Headache & Fever
+                </div>
+                <div class="question-btn" onclick="askQuestion('Can I take ibuprofen with my blood pressure medication?')">
+                    Drug Interactions
+                </div>
+                <div class="question-btn" onclick="askQuestion('What are the symptoms of diabetes?')">
+                    Diabetes Symptoms
+                </div>
+                <div class="question-btn" onclick="askQuestion('When should I see a doctor for chest pain?')">
+                    Chest Pain
+                </div>
+                <div class="question-btn" onclick="askQuestion('How do I manage anxiety naturally?')">
+                    Anxiety Management
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-actions">
+            <a href="/services/" class="btn btn-outline">Back to Services</a>
+            <a href="/contact/" class="btn btn-primary">Get Full Access</a>
+        </div>
+    </main>
+
+    <script src="/assets/js/api.js"></script>
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const typingIndicator = document.getElementById('typing-indicator');
+
+        const responses = {
+            'headache': {
+                keywords: ['headache', 'head pain', 'migraine'],
+                response: "For headaches with fever, this could indicate an infection. I recommend:\n\n• Take your temperature\n• Stay hydrated\n• Rest in a dark, quiet room\n• Consider over-the-counter pain relief\n• See a doctor if fever exceeds 101°F or symptoms worsen\n\n⚠️ Seek immediate care for severe headache with neck stiffness, confusion, or vision changes."
+            },
+            'drug_interaction': {
+                keywords: ['ibuprofen', 'blood pressure', 'medication', 'drug interaction'],
+                response: "Ibuprofen can interact with blood pressure medications:\n\n• NSAIDs like ibuprofen may reduce effectiveness of BP meds\n• Can increase blood pressure\n• May affect kidney function\n\n✅ Safer alternatives:\n• Acetaminophen for pain relief\n• Consult your pharmacist or doctor\n• Always check with healthcare provider before combining medications"
+            },
+            'diabetes': {
+                keywords: ['diabetes', 'blood sugar', 'glucose'],
+                response: "Common diabetes symptoms include:\n\n🔍 Early signs:\n• Increased thirst and urination\n• Unexplained weight loss\n• Fatigue and weakness\n• Blurred vision\n• Slow-healing wounds\n\n📊 Risk factors:\n• Family history\n• Age over 45\n• Obesity\n• Sedentary lifestyle\n\n💡 If you have multiple symptoms, consult a healthcare provider for proper testing."
+            },
+            'chest_pain': {
+                keywords: ['chest pain', 'chest', 'heart'],
+                response: "Chest pain requires careful evaluation:\n\n🚨 SEEK IMMEDIATE CARE if you have:\n• Crushing or squeezing chest pain\n• Pain radiating to arm, jaw, or back\n• Shortness of breath\n• Sweating or nausea\n• Dizziness\n\n⚠️ See a doctor soon for:\n• Pain with exertion\n• New or worsening symptoms\n• Pain lasting more than a few minutes\n\nWhen in doubt, call emergency services. Heart attacks can present differently in women and diabetics."
+            },
+            'anxiety': {
+                keywords: ['anxiety', 'stress', 'worry', 'panic'],
+                response: "Natural anxiety management strategies:\n\n🧘 Immediate relief:\n• Deep breathing exercises (4-7-8 technique)\n• Progressive muscle relaxation\n• Grounding techniques (5-4-3-2-1 method)\n\n🏃 Long-term strategies:\n• Regular exercise (30 min daily)\n• Adequate sleep (7-9 hours)\n• Limit caffeine and alcohol\n• Mindfulness meditation\n• Social support\n\n💊 Consider professional help if anxiety interferes with daily life. Therapy and medication can be very effective."
+            },
+            'default': {
+                keywords: [],
+                response: "I understand you're looking for medical guidance. While I can provide general health information, I recommend:\n\n• Consulting with a healthcare professional for personalized advice\n• Calling your doctor's office for specific concerns\n• Using telehealth services for non-emergency questions\n• Visiting urgent care for acute but non-life-threatening issues\n\nIs there a specific symptom or health topic you'd like general information about?"
+            }
+        };
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${isUser ? 'You' : 'AI'}</div>
+                <div class="message-content">${content.replace(/\n/g, '<br>')}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            for (const [key, data] of Object.entries(responses)) {
+                if (key === 'default') continue;
+                
+                if (data.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                    return data.response;
+                }
+            }
+            
+            return responses.default.response;
+        }
+
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            messageInput.value = '';
+            sendButton.disabled = true;
+            
+            // Show typing indicator
+            typingIndicator.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            try {
+                // Call real AI service
+                const response = await window.api.virtualAssistant(message);
+                
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    addMessage(response.response);
+                    sendButton.disabled = false;
+                    messageInput.focus();
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Error getting AI response:', error);
+                
+                // Fallback to demo response
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    const fallbackResponse = getResponse(message);
+                    addMessage(fallbackResponse);
+                    sendButton.disabled = false;
+                    messageInput.focus();
+                }, 1500 + Math.random() * 1000);
+            }
+        }
+
+        function askQuestion(question) {
+            messageInput.value = question;
+            sendMessage();
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Focus input on load
+        messageInput.focus();
+    </script>
+</body>
+</html>

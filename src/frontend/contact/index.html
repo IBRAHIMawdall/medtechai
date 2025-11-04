@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | MedTechAI</title>
+  <meta name="description" content="Get in touch with MedTechAI for demos, partnerships, and support.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <a href="/" class="logo-text" data-analytics="nav-logo">MedTechAI</a>
+      <nav>
+        <ul class="nav-list">
+          <li><a class="nav-link" href="/" data-analytics="nav-home">Home</a></li>
+          <li><a class="nav-link" href="/about/" data-analytics="nav-about">About</a></li>
+          <li><a class="nav-link" href="/services.html" data-analytics="nav-services">Services</a></li>
+          <li><a class="nav-link" href="/contact/" data-analytics="nav-contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button id="theme-toggle" class="btn btn-outline" aria-label="Toggle theme">Theme</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero contact-hero">
+      <div class="container hero-content">
+        <div>
+          <h1 class="hero-title">Contact MedTechAI</h1>
+          <p class="hero-description">Reach out to our team for product demos, enterprise pricing, and technical support.</p>
+          <div class="hero-cta">
+            <a href="#contact-details" class="btn btn-primary btn-lg" data-analytics="cta-contact-details">View Details</a>
+            <a href="mailto:contact@medtechai.net" class="btn btn-outline btn-lg" data-analytics="cta-contact-email">Send Email</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="floating-card card-1"><span class="card-icon">📧</span><span class="card-text">Email</span></div>
+          <div class="floating-card card-2"><span class="card-icon">📞</span><span class="card-text">Phone</span></div>
+          <div class="floating-card card-3"><span class="card-icon">🤝</span><span class="card-text">Support</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact-details" class="contact-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Get in Touch</h2>
+          <p class="section-description">We typically respond within 24–48 hours.</p>
+        </div>
+        <div class="contact-grid">
+          <article class="about-card">
+            <h3>Email</h3>
+            <p><a href="mailto:contact@medtechai.net" data-analytics="contact-mail">contact@medtechai.net</a></p>
+          </article>
+          <article class="about-card">
+            <h3>Phone</h3>
+            <p><a href="tel:+971525397947" data-analytics="contact-phone">+971 52 539 7947</a></p>
+          </article>
+          <article class="about-card">
+            <h3>Address</h3>
+            <p>Abu Dhabi, UAE</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Contact Form</h2>
+          <p class="section-description">Submit your inquiry and our team will follow up.</p>
+        </div>
+        <form
+          id="contact-form"
+          class="contact-form"
+          novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name *</label>
+              <input 
+                id="name" 
+                name="name" 
+                type="text" 
+                placeholder="Your full name" 
+                required 
+                minlength="2"
+                maxlength="100"
+                autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input 
+                id="email" 
+                name="email" 
+                type="email" 
+                placeholder="you@example.com" 
+                required
+                maxlength="255"
+                autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input 
+              id="subject" 
+              name="subject" 
+              type="text" 
+              placeholder="e.g., Product Demo Inquiry"
+              maxlength="200">
+          </div>
+          <div class="form-group">
+             <label for="message">Message *</label>
+             <textarea 
+               id="message" 
+               name="message" 
+               rows="5" 
+               placeholder="How can we help? Please provide details about your inquiry..."
+               required
+               minlength="10"
+               maxlength="2000"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-analytics="contact-submit">Send Message</button>
+          </div>
+        </form>
+        <p id="form-status" class="form-status"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <section class="footer-section">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="/about/" data-analytics="footer-about">About</a></li>
+          <li><a href="/services/" data-analytics="footer-services">Services</a></li>
+          <li><a href="/contact/" data-analytics="footer-contact">Contact</a></li>
+        </ul>
+      </section>
+      <section class="footer-section">
+        <h4>Contact</h4>
+        <ul class="contact-details">
+          <li><a href="mailto:contact@medtechai.net" data-analytics="footer-mail">contact@medtechai.net</a></li>
+          <li><a href="tel:+11234567890" data-analytics="footer-phone">+1 123 456 7890</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="footer-bottom">© 2025 MedTechAI</div>
+  </footer>
+  <script src="/js/animations.js" defer></script>
+  <script src="/js/contact.js" defer></script>
+</body>
+</html>

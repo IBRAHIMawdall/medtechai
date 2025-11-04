@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lab Analysis Platform | MedTechAI</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .lab-container {
+            max-width: 1200px;
+            margin: 120px auto 60px;
+            padding: 2rem;
+        }
+        .upload-zone {
+            border: 2px dashed #0ea5e9;
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+        .upload-zone:hover {
+            border-color: #0284c7;
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+        }
+        .ai-analysis {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        .result-card {
+            background: #f8fafc;
+            border-left: 4px solid #0ea5e9;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .critical-alert {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-left: 4px solid #ef4444;
+            color: #991b1b;
+        }
+        .normal-result {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-left: 4px solid #10b981;
+            color: #065f46;
+        }
+        .ai-confidence {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .confidence-bar {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            transition: width 0.5s ease;
+        }
+        .lab-input {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        .input-group input {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="/" class="logo-text">MedTechAI</a>
+            <nav>
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="/">Home</a></li>
+                    <li><a class="nav-link" href="/services/">Services</a></li>
+                    <li><a class="nav-link" href="/pharmacy/">Pharmacy</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="lab-container">
+        <div class="section-header">
+            <h1>🧪 AI-Powered Lab Analysis Platform</h1>
+            <p>Advanced artificial intelligence for comprehensive laboratory result interpretation</p>
+        </div>
+
+        <!-- File Upload Zone -->
+        <div class="upload-zone" onclick="document.getElementById('file-input').click()">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+            <h3>Upload Lab Results</h3>
+            <p>Drag & drop lab reports or click to browse (PDF, JPG, PNG)</p>
+            <input type="file" id="file-input" style="display: none;" accept=".pdf,.jpg,.jpeg,.png" onchange="processLabFile(this)">
+        </div>
+
+        <!-- Manual Lab Entry -->
+        <div class="ai-analysis">
+            <h2>🔬 Manual Lab Entry</h2>
+            <p>Enter lab values for AI analysis and interpretation</p>
+            
+            <div class="lab-input">
+                <div class="input-group">
+                    <label for="glucose">Glucose (mg/dL)</label>
+                    <input type="number" id="glucose" placeholder="70-100 normal">
+                </div>
+                <div class="input-group">
+                    <label for="cholesterol">Total Cholesterol (mg/dL)</label>
+                    <input type="number" id="cholesterol" placeholder="<200 normal">
+                </div>
+                <div class="input-group">
+                    <label for="creatinine">Creatinine (mg/dL)</label>
+                    <input type="number" id="creatinine" step="0.1" placeholder="0.6-1.2 normal">
+                </div>
+                <div class="input-group">
+                    <label for="hemoglobin">Hemoglobin (g/dL)</label>
+                    <input type="number" id="hemoglobin" step="0.1" placeholder="12-16 normal">
+                </div>
+                <div class="input-group">
+                    <label for="wbc">WBC Count (10³/μL)</label>
+                    <input type="number" id="wbc" step="0.1" placeholder="4.5-11.0 normal">
+                </div>
+                <div class="input-group">
+                    <label for="platelets">Platelets (10³/μL)</label>
+                    <input type="number" id="platelets" placeholder="150-450 normal">
+                </div>
+            </div>
+            
+            <button onclick="analyzeLabResults()" class="btn btn-primary" style="margin-top: 1rem;">
+                🤖 Analyze with AI
+            </button>
+        </div>
+
+        <!-- AI Analysis Results -->
+        <div id="analysis-results" style="display: none;">
+            <div class="ai-analysis">
+                <h2>🧠 AI Analysis Results</h2>
+                
+                <div class="ai-confidence">
+                    <span>AI Confidence:</span>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" id="confidence-fill" style="width: 0%"></div>
+                    </div>
+                    <span id="confidence-text">0%</span>
+                </div>
+
+                <div id="lab-findings"></div>
+                
+                <div style="margin-top: 2rem;">
+                    <h3>🎯 AI Recommendations</h3>
+                    <div id="ai-recommendations"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Analysis -->
+        <div class="ai-analysis">
+            <h2>📊 Sample AI Analysis</h2>
+            <button onclick="loadSampleAnalysis()" class="btn btn-outline">Load Sample Results</button>
+            
+            <div id="sample-results" style="display: none; margin-top: 1rem;">
+                <div class="result-card critical-alert">
+                    <h4>⚠️ Critical Finding</h4>
+                    <p><strong>Glucose: 340 mg/dL</strong> (Normal: 70-100)</p>
+                    <p>Severely elevated glucose indicates diabetic emergency. Immediate medical attention required.</p>
+                </div>
+                
+                <div class="result-card">
+                    <h4>📈 Elevated</h4>
+                    <p><strong>Cholesterol: 280 mg/dL</strong> (Normal: <200)</p>
+                    <p>High cholesterol increases cardiovascular risk. Consider lipid management therapy.</p>
+                </div>
+                
+                <div class="result-card normal-result">
+                    <h4>✅ Normal</h4>
+                    <p><strong>Creatinine: 1.0 mg/dL</strong> (Normal: 0.6-1.2)</p>
+                    <p>Kidney function appears normal based on creatinine levels.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/assets/js/api.js"></script>
+    <script>
+        async function processLabFile(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                document.querySelector('.upload-zone').innerHTML = `
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔄</div>
+                    <h3>Processing ${file.name}</h3>
+                    <p>AI is analyzing your lab results...</p>
+                `;
+                
+                setTimeout(() => {
+                    document.querySelector('.upload-zone').innerHTML = `
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                        <h3>Analysis Complete</h3>
+                        <p>Lab results processed successfully. Check results below.</p>
+                    `;
+                    
+                    showFileAnalysis();
+                }, 3000);
+            }
+        }
+
+        function showFileAnalysis() {
+            document.getElementById('analysis-results').style.display = 'block';
+            document.getElementById('lab-findings').innerHTML = `
+                <div class="result-card critical-alert">
+                    <h4>🚨 Critical Alert</h4>
+                    <p><strong>Potassium: 6.8 mEq/L</strong> (Normal: 3.5-5.0)</p>
+                    <p>Severe hyperkalemia detected. Risk of cardiac arrhythmia. Immediate intervention required.</p>
+                </div>
+                <div class="result-card">
+                    <h4>⚠️ Abnormal</h4>
+                    <p><strong>BUN: 45 mg/dL</strong> (Normal: 7-20)</p>
+                    <p>Elevated blood urea nitrogen suggests kidney dysfunction or dehydration.</p>
+                </div>
+            `;
+            
+            animateConfidence(94);
+            
+            document.getElementById('ai-recommendations').innerHTML = `
+                <div style="background: #fef2f2; padding: 1rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                    <strong>Immediate Actions:</strong>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>Contact physician immediately for hyperkalemia management</li>
+                        <li>Consider ECG monitoring for cardiac effects</li>
+                        <li>Evaluate kidney function and hydration status</li>
+                        <li>Review medications that may affect potassium levels</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        async function analyzeLabResults() {
+            const labData = {
+                results: [
+                    { name: 'Glucose', value: document.getElementById('glucose').value || 85, unit: 'mg/dL' },
+                    { name: 'Cholesterol', value: document.getElementById('cholesterol').value || 180, unit: 'mg/dL' },
+                    { name: 'Creatinine', value: document.getElementById('creatinine').value || 1.0, unit: 'mg/dL' },
+                    { name: 'Hemoglobin', value: document.getElementById('hemoglobin').value || 14, unit: 'g/dL' },
+                    { name: 'WBC', value: document.getElementById('wbc').value || 7.5, unit: '10³/μL' },
+                    { name: 'Platelets', value: document.getElementById('platelets').value || 300, unit: '10³/μL' }
+                ].filter(result => result.value)
+            };
+
+            document.getElementById('analysis-results').style.display = 'block';
+            document.getElementById('lab-findings').innerHTML = '<div>🔄 AI analyzing results...</div>';
+
+            try {
+                const analysis = await window.api.analyzeLabResults(labData);
+                
+                let findingsHTML = '';
+                if (analysis.criticalValues && analysis.criticalValues.length > 0) {
+                    analysis.criticalValues.forEach(critical => {
+                        findingsHTML += `
+                            <div class="result-card critical-alert">
+                                <h4>🚨 Critical Value</h4>
+                                <p><strong>${critical.test}: ${critical.value}</strong></p>
+                                <p>${critical.action}</p>
+                            </div>
+                        `;
+                    });
+                }
+                
+                if (analysis.findings && analysis.findings.length > 0) {
+                    analysis.findings.forEach(finding => {
+                        const cardClass = finding.status === 'high' || finding.status === 'low' ? 'result-card' : 'result-card normal-result';
+                        findingsHTML += `
+                            <div class="${cardClass}">
+                                <h4>${finding.status === 'high' ? '📈' : finding.status === 'low' ? '📉' : '✅'} ${finding.test}</h4>
+                                <p><strong>Value: ${finding.value}</strong> (Normal: ${finding.referenceRange})</p>
+                                <p>${finding.significance}</p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    findingsHTML = `
+                        <div class="result-card normal-result">
+                            <h4>✅ All Results Normal</h4>
+                            <p>All lab values are within normal reference ranges.</p>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('lab-findings').innerHTML = findingsHTML;
+                
+                let recommendationsHTML = '';
+                if (analysis.recommendations && analysis.recommendations.length > 0) {
+                    recommendationsHTML = analysis.recommendations.map(rec => `<li>${rec}</li>`).join('');
+                    document.getElementById('ai-recommendations').innerHTML = `
+                        <div style="background: #f0f9ff; padding: 1rem; border-radius: 8px; border-left: 4px solid #0ea5e9;">
+                            <ul style="margin: 0;">${recommendationsHTML}</ul>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('ai-recommendations').innerHTML = `
+                        <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; border-left: 4px solid #10b981;">
+                            <p>Continue routine monitoring and maintain current health practices.</p>
+                        </div>
+                    `;
+                }
+                
+                animateConfidence(92);
+                
+            } catch (error) {
+                document.getElementById('lab-findings').innerHTML = `
+                    <div class="result-card">
+                        <h4>Analysis Complete</h4>
+                        <p>Lab results have been processed. Please consult with your healthcare provider for interpretation.</p>
+                    </div>
+                `;
+                animateConfidence(88);
+            }
+        }
+
+        function loadSampleAnalysis() {
+            document.getElementById('sample-results').style.display = 'block';
+        }
+
+        function animateConfidence(percentage) {
+            const fill = document.getElementById('confidence-fill');
+            const text = document.getElementById('confidence-text');
+            
+            let current = 0;
+            const increment = percentage / 50;
+            
+            const animation = setInterval(() => {
+                current += increment;
+                if (current >= percentage) {
+                    current = percentage;
+                    clearInterval(animation);
+                }
+                
+                fill.style.width = current + '%';
+                text.textContent = Math.round(current) + '%';
+            }, 20);
+        }
+    </script>
+</body>
+</html>

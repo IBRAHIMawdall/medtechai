@@ -1,0 +1,64 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Proxy API requests to Render backend
+# Backend URL: https://medtechai.onrender.com
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^api/(.*)$ https://medtechai.onrender.com/api/$1 [P,L]
+
+# Handle frontend routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteRule ^([^/]+)/?$ index.html [L,QSA]
+
+# Custom error pages
+ErrorDocument 404 /404.html
+
+# Favicon compatibility
+Redirect 301 /favicon.ico /favicon.svg
+ 
+# Security headers
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "geolocation=(), camera=(), microphone=()"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+# Content Security Policy
+Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://plausible.io https://analytics.eu.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://plausible.io https://analytics.eu.umami.is; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# Cache control
+<IfModule mod_expires.c>
+    ExpiresActive On
+    # HTML: no cache
+    ExpiresByType text/html "access plus 0 seconds"
+    # Static assets: 30 days
+    ExpiresByType text/css "access plus 30 days"
+    ExpiresByType application/javascript "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/jpg "access plus 30 days"
+    ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType image/gif "access plus 30 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+</IfModule>
+
+# Cache-Control headers
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|png|jpg|jpeg|gif|svg)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,32 @@
+{
+  "name": "medtechai-platform",
+  "version": "1.0.0",
+  "description": "AI-Powered Healthcare Management Platform - Clean Production Version",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "main": "src/backend/server.js",
+  "workspaces": [
+    "src/backend"
+  ],
+  "scripts": {
+    "start": "npm start --workspace=medtechai-backend",
+    "dev": "npm run dev --workspace=medtechai-backend"
+  },
+  "keywords": [
+    "medical",
+    "healthcare",
+    "ai",
+    "platform",
+    "telemedicine",
+    "pharmacy",
+    "lab-analysis"
+  ],
+  "author": "MedTechAI",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/medtechai-platform.git"
+  }
+}

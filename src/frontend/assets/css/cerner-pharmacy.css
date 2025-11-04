@@ -1,0 +1,408 @@
+/* Cerner PowerChart Pharmacy Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    color: #2d3748;
+}
+
+.pharmacy-system {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: 100vh;
+    gap: 0;
+}
+
+/* Sidebar Styles */
+.pharmacy-sidebar {
+    background: #1a365d;
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 3px solid #2c5aa0;
+}
+
+.pharmacy-sidebar h2 {
+    color: #90cdf4;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    border-bottom: 1px solid #2c5aa0;
+    padding-bottom: 10px;
+}
+
+.prescription-search input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #4a5568;
+    border-radius: 4px;
+    background: #2d3748;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.prescription-search input::placeholder {
+    color: #a0aec0;
+}
+
+.sidebar-actions button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 8px;
+    border: none;
+    border-radius: 4px;
+    background: #3182ce;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.sidebar-actions button:hover {
+    background: #2c5aa0;
+}
+
+.workflow-status, .queue-status {
+    background: #2d3748;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #4a5568;
+}
+
+.workflow-status h3, .queue-status h3 {
+    color: #90cdf4;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.workflow-status div div, .queue-status div div {
+    padding: 3px 0;
+    font-size: 0.9em;
+}
+
+/* Main Content Styles */
+.pharmacy-main {
+    background: white;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.pharmacy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    background: #1a365d;
+    color: white;
+    border-radius: 6px;
+}
+
+.pharmacy-header h1 {
+    color: #90cdf4;
+    font-size: 1.5em;
+}
+
+.announcement-banner {
+    background: #fed7d7;
+    color: #c53030;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    border-left: 4px solid #e53e3e;
+}
+
+.current-serving {
+    background: #c6f6d5;
+    color: #22543d;
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Dashboard Stats */
+.pharmacy-dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.pharmacy-stat {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #3182ce;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #4a5568;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Prescription Queue */
+.prescription-queue {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.prescription-queue h2 {
+    color: #1a365d;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    border-bottom: 2px solid #3182ce;
+    padding-bottom: 10px;
+}
+
+.prescription-item {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.prescription-item:hover {
+    background: #edf2f7;
+    border-color: #3182ce;
+}
+
+.prescription-item.priority-high {
+    border-left: 4px solid #e53e3e;
+}
+
+.prescription-item.priority-normal {
+    border-left: 4px solid #38a169;
+}
+
+.prescription-item.priority-urgent {
+    border-left: 4px solid #d69e2e;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 0;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    background: #1a365d;
+    color: white;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    color: #90cdf4;
+    margin: 0;
+}
+
+.modal-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content form {
+    padding: 20px;
+}
+
+/* Form Styles */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+/* Button Styles */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background: #3182ce;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background: #2c5aa0;
+}
+
+.btn-secondary {
+    background: #718096;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-secondary:hover {
+    background: #4a5568;
+}
+
+.btn-danger {
+    background: #e53e3e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-danger:hover {
+    background: #c53030;
+}
+
+/* Interaction Results */
+.interaction-results {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fed7d7;
+    border: 1px solid #feb2b2;
+    border-radius: 6px;
+}
+
+.drug-list {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 10px;
+    min-height: 100px;
+}
+
+/* Queue Manager */
+.queue-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.queue-list {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 15px;
+    min-height: 200px;
+}
+
+.queue-item {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.queue-item.serving {
+    background: #c6f6d5;
+    border-color: #38a169;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .pharmacy-system {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .pharmacy-sidebar {
+        position: relative;
+        height: auto;
+    }
+    
+    .pharmacy-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

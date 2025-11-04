@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pharmacy POS System | MedTechAI</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="pos-styles.css">
+  <link rel="stylesheet" href="pos-advanced.css">
+</head>
+<body class="pos-body">
+  <div class="pos-container">
+    <header class="pos-header">
+      <div class="pos-logo">MedTechAI POS</div>
+      <div class="pos-controls">
+        <select id="cashierSelect">
+          <option value="john">John Doe</option>
+          <option value="jane">Jane Smith</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button id="shiftBtn" class="btn-header">End Shift</button>
+        <button id="reportsBtn" class="btn-header">Reports</button>
+      </div>
+      <div class="pos-time" id="currentTime"></div>
+    </header>
+
+    <div class="pos-main">
+      <div class="pos-left">
+        <div class="product-search">
+          <input type="text" id="productSearch" placeholder="Search products or scan barcode..." autocomplete="off">
+          <button id="scanBtn">📷 Scan</button>
+          <button id="customerBtn">👤 Customer</button>
+          <button id="prescriptionBtn">📋 Rx</button>
+        </div>
+        
+        <div class="search-filters">
+          <select id="categoryFilter">
+            <option value="">All Categories</option>
+            <option value="Pain Relief">Pain Relief</option>
+            <option value="Vitamins">Vitamins</option>
+            <option value="Cold & Flu">Cold & Flu</option>
+            <option value="Digestive">Digestive</option>
+            <option value="First Aid">First Aid</option>
+          </select>
+          <button id="lowStockBtn" class="filter-btn">Low Stock</button>
+          <button id="expiringSoonBtn" class="filter-btn">Expiring Soon</button>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+          <!-- Products will be loaded here -->
+        </div>
+      </div>
+
+      <div class="pos-right">
+        <div class="cart-section">
+          <div class="customer-info" id="customerInfo">
+            <h4>Customer: Walk-in</h4>
+            <div class="customer-details" style="display:none;">
+              <p><strong>Name:</strong> <span id="customerName">-</span></p>
+              <p><strong>Phone:</strong> <span id="customerPhone">-</span></p>
+              <p><strong>Insurance:</strong> <span id="customerInsurance">-</span></p>
+            </div>
+          </div>
+          
+          <h3>Current Sale #<span id="saleNumber">001</span></h3>
+          <div class="cart-items" id="cartItems">
+            <!-- Cart items will appear here -->
+          </div>
+          
+          <div class="discount-section">
+            <div class="discount-controls">
+              <input type="number" id="discountAmount" placeholder="Discount $" step="0.01">
+              <select id="discountType">
+                <option value="amount">$ Amount</option>
+                <option value="percent">% Percent</option>
+              </select>
+              <button id="applyDiscount">Apply</button>
+            </div>
+          </div>
+          
+          <div class="cart-totals">
+            <div class="total-line">
+              <span>Subtotal:</span>
+              <span id="subtotal">$0.00</span>
+            </div>
+            <div class="total-line" id="discountLine" style="display:none;">
+              <span>Discount:</span>
+              <span id="discount">-$0.00</span>
+            </div>
+            <div class="total-line">
+              <span>Tax (8%):</span>
+              <span id="tax">$0.00</span>
+            </div>
+            <div class="total-line">
+              <span>Insurance:</span>
+              <span id="insurance">-$0.00</span>
+            </div>
+            <div class="total-line total-final">
+              <span>Total:</span>
+              <span id="total">$0.00</span>
+            </div>
+          </div>
+
+          <div class="payment-section">
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="cash">💵 Cash</button>
+              <button class="payment-btn" data-method="card">💳 Card</button>
+              <button class="payment-btn" data-method="insurance">🏥 Insurance</button>
+              <button class="payment-btn" data-method="split">🔄 Split</button>
+              <button class="payment-btn" data-method="check">📝 Check</button>
+              <button class="payment-btn" data-method="giftcard">🎁 Gift Card</button>
+            </div>
+            
+            <div class="payment-input" id="paymentInput" style="display:none;">
+              <input type="number" id="amountPaid" placeholder="Amount paid" step="0.01">
+              <button id="processPayment">Process Payment</button>
+            </div>
+          </div>
+
+          <div class="pos-actions">
+            <button id="clearCart" class="btn-secondary">Clear Cart</button>
+            <button id="holdSale" class="btn-secondary">Hold Sale</button>
+            <button id="retrieveSale" class="btn-secondary">Retrieve Sale</button>
+            <button id="voidSale" class="btn-danger">Void Sale</button>
+            <button id="printReceipt" class="btn-primary">Print Receipt</button>
+            <button id="emailReceipt" class="btn-outline">Email Receipt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="pos-system.js"></script>
+  <script src="pos-advanced.js"></script>
+</body>
+</html>

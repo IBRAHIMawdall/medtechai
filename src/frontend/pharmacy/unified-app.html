@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Pharmacy Management System | MedTechAI</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .unified-container {
+            max-width: 1900px;
+            margin: 100px auto 20px;
+            padding: 1rem;
+            background: #f5f7fa;
+            height: calc(100vh - 120px);
+        }
+        .app-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .app-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .app-tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .app-tab.active {
+            border-bottom-color: #667eea;
+            background: #f0f7ff;
+        }
+        .app-content {
+            background: white;
+            height: calc(100% - 140px);
+            overflow: hidden;
+            border-radius: 0 0 8px 8px;
+        }
+        .tab-panel {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+        
+        /* POS System Styles */
+        .pos-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 350px;
+            height: 100%;
+        }
+        .queue-sidebar {
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+            overflow-y: auto;
+        }
+        .dispensing-main {
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .cart-sidebar {
+            background: #f8f9fa;
+            border-left: 1px solid #e9ecef;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        /* Smart Management Styles */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            height: 100%;
+        }
+        .ai-panel {
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+        }
+        .inventory-panel {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        /* Clinical Workflow Styles */
+        .clinical-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: 100%;
+        }
+        .clinical-queue {
+            background: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+        }
+        .clinical-details {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        /* Common Styles */
+        .queue-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .queue-item:hover {
+            background: #e3f2fd;
+        }
+        .queue-item.active {
+            background: #1976d2;
+            color: white;
+        }
+        .medicine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+        .medicine-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .medicine-card:hover {
+            border-color: #1976d2;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.2);
+        }
+        .search-bar {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .unified-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #1976d2;
+            color: white;
+        }
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="unified-container">
+        <!-- App Header -->
+        <div class="app-header">
+            <div>
+                <h2>🏥 Unified Pharmacy Management System</h2>
+                <span>MedTechAI Complete Solution | Station: MAIN-01</span>
+            </div>
+            <div>
+                <span id="current-time"></span>
+                <span style="margin-left: 2rem;">Pharmacist: Dr. Sarah Johnson, PharmD</span>
+            </div>
+        </div>
+
+        <!-- App Tabs -->
+        <div class="app-tabs">
+            <div class="app-tab active" onclick="switchTab('pos')">
+                🏪 POS System
+            </div>
+            <div class="app-tab" onclick="switchTab('smart')">
+                🤖 Smart Management
+            </div>
+            <div class="app-tab" onclick="switchTab('clinical')">
+                🏥 Clinical Workflow
+            </div>
+            <div class="app-tab" onclick="switchTab('interactions')">
+                ⚠️ Drug Interactions
+            </div>
+            <div class="app-tab" onclick="switchTab('inventory')">
+                📦 Inventory
+            </div>
+        </div>
+
+        <!-- App Content -->
+        <div class="app-content">
+            <!-- POS System Tab -->
+            <div id="pos-tab" class="tab-panel active">
+                <div class="pos-layout">
+                    <!-- Queue Sidebar -->
+                    <div class="queue-sidebar">
+                        <div style="padding: 1rem; background: #1976d2; color: white;">
+                            <h4>📋 Patient Queue</h4>
+                            <button class="unified-button btn-success" onclick="addPatient()">+ Add Patient</button>
+                        </div>
+                        <div id="patient-queue">
+                            <div class="queue-item active">
+                                <div style="font-weight: 600;">#001 - John Smith</div>
+                                <div style="font-size: 0.9rem; color: #666;">+1-555-0123</div>
+                            </div>
+                            <div class="queue-item">
+                                <div style="font-weight: 600;">#002 - Mary Johnson</div>
+                                <div style="font-size: 0.9rem; color: #666;">+1-555-0456</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dispensing Main -->
+                    <div class="dispensing-main">
+                        <input type="text" class="search-bar" placeholder="🔍 Search medicines..." onkeyup="searchMedicines(this.value)">
+                        
+                        <div class="medicine-grid" id="medicine-grid">
+                            <div class="medicine-card" onclick="addToCart('paracetamol', 'Paracetamol 500mg', 2.50)">
+                                <h5>Paracetamol 500mg</h5>
+                                <p><strong>$2.50</strong> | Stock: 450</p>
+                            </div>
+                            <div class="medicine-card" onclick="addToCart('ibuprofen', 'Ibuprofen 400mg', 3.75)">
+                                <h5>Ibuprofen 400mg</h5>
+                                <p><strong>$3.75</strong> | Stock: 320</p>
+                            </div>
+                            <div class="medicine-card" onclick="addToCart('amoxicillin', 'Amoxicillin 250mg', 8.90)">
+                                <h5>Amoxicillin 250mg</h5>
+                                <p><strong>$8.90</strong> | Stock: 180</p>
+                            </div>
+                            <div class="medicine-card" onclick="addToCart('metformin', 'Metformin 500mg', 12.50)">
+                                <h5>Metformin 500mg</h5>
+                                <p><strong>$12.50</strong> | Stock: 95</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button class="unified-button btn-primary" onclick="scanBarcode()">📷 Scan</button>
+                            <button class="unified-button btn-primary" onclick="checkInteractions()">⚠️ Interactions</button>
+                            <button class="unified-button btn-primary" onclick="newPrescription()">📝 New Rx</button>
+                        </div>
+                    </div>
+
+                    <!-- Cart Sidebar -->
+                    <div class="cart-sidebar">
+                        <h4>🛒 Current Sale</h4>
+                        <div><strong>Patient: John Smith (#001)</strong></div>
+                        
+                        <div id="cart-items" style="margin: 1rem 0;">
+                            <div style="padding: 0.5rem; border-bottom: 1px solid #ddd;">
+                                <div><strong>Paracetamol 500mg</strong></div>
+                                <div>Qty: 2 x $2.50 = $5.00</div>
+                            </div>
+                        </div>
+
+                        <div style="background: #1976d2; color: white; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <div>Subtotal: $5.00</div>
+                            <div>Tax: $0.40</div>
+                            <div style="font-weight: bold; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 0.5rem;">
+                                Total: $5.40
+                            </div>
+                        </div>
+
+                        <button class="unified-button btn-success" style="width: 100%; margin: 0.25rem 0;" onclick="processPayment()">💳 Process Payment</button>
+                        <button class="unified-button btn-primary" style="width: 100%; margin: 0.25rem 0;" onclick="printReceipt()">🖨️ Print Receipt</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Management Tab -->
+            <div id="smart-tab" class="tab-panel">
+                <div class="dashboard-grid">
+                    <div class="ai-panel">
+                        <h3>🧠 AI Command Center</h3>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h4>🔮 Predictive Analytics</h4>
+                            <p>AI forecasts demand and optimizes inventory</p>
+                            <button class="unified-button" style="background: rgba(255,255,255,0.2); color: white;" onclick="runAnalytics()">Run Analysis</button>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h4>⚡ Smart Dispensing</h4>
+                            <p>Automated verification and interaction checking</p>
+                            <div style="font-size: 1.2rem; font-weight: bold;">🟢 ACTIVE</div>
+                        </div>
+                    </div>
+
+                    <div class="inventory-panel">
+                        <h3>📦 Intelligent Inventory</h3>
+                        <div style="text-align: center; padding: 2rem; background: #f8fafc; border-radius: 8px; margin: 1rem 0;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #0ea5e9;">2,847</div>
+                            <div>Total Items</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1rem; border-radius: 8px;">
+                            <h4>🎯 AI Predictions</h4>
+                            <div>• Metformin: Reorder in 3 days</div>
+                            <div>• Lisinopril: High demand expected</div>
+                            <div>• Insulin: Stock sufficient for 12 days</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clinical Workflow Tab -->
+            <div id="clinical-tab" class="tab-panel">
+                <div class="clinical-layout">
+                    <div class="clinical-queue">
+                        <div style="padding: 1rem; background: #2c5aa0; color: white;">
+                            <h4>📋 Verification Queue</h4>
+                        </div>
+                        <div class="queue-item">
+                            <div style="font-weight: 600;">STAT - Room 302A</div>
+                            <div>Smith, John (MRN: 123456)</div>
+                            <div style="font-size: 0.8rem;">Morphine 2mg IV</div>
+                        </div>
+                        <div class="queue-item">
+                            <div style="font-weight: 600;">URGENT - ICU</div>
+                            <div>Johnson, Mary (MRN: 789012)</div>
+                            <div style="font-size: 0.8rem;">Insulin Sliding Scale</div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-details">
+                        <div style="background: linear-gradient(135deg, #1976d2, #1565c0); color: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <h3>Smith, John (Age: 65, M)</h3>
+                            <div>MRN: 123456 | Room: 302A | Dr. Anderson</div>
+                            <div>Allergies: Penicillin, Sulfa</div>
+                        </div>
+
+                        <div style="background: #f8d7da; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0;">
+                            <h4>🚨 High Priority Alert</h4>
+                            <p>Patient has documented morphine allergy - consider alternative</p>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h4>📋 Current Order</h4>
+                            <div><strong>Morphine Sulfate 2mg IV</strong></div>
+                            <div>Q4H PRN pain | Ordered: 14:30 | Dr. Anderson</div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button class="unified-button btn-success">✅ Verify</button>
+                            <button class="unified-button btn-warning">❓ Clarify</button>
+                            <button class="unified-button btn-primary">💡 Alternative</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drug Interactions Tab -->
+            <div id="interactions-tab" class="tab-panel">
+                <div style="padding: 2rem;">
+                    <h2>⚠️ Drug Interaction Screening</h2>
+                    
+                    <div style="margin: 2rem 0;">
+                        <input type="text" class="search-bar" placeholder="Enter medication name..." id="med-input">
+                        <button class="unified-button btn-primary" onclick="addMedication()">Add Medication</button>
+                    </div>
+
+                    <div id="medication-list" style="margin: 2rem 0;"></div>
+
+                    <div id="interaction-results" style="min-height: 200px; background: #f8f9fa; padding: 2rem; border-radius: 8px;">
+                        <div style="text-align: center; color: #6b7280;">Add medications to check for interactions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Tab -->
+            <div id="inventory-tab" class="tab-panel">
+                <div style="padding: 2rem;">
+                    <h2>📦 Inventory Management</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4>Paracetamol 500mg</h4>
+                            <div>Stock: 450 units</div>
+                            <div>Reorder Level: 100</div>
+                            <div style="color: #10b981;">✅ In Stock</div>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4>Metformin 500mg</h4>
+                            <div>Stock: 95 units</div>
+                            <div>Reorder Level: 100</div>
+                            <div style="color: #f59e0b;">⚠️ Low Stock</div>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4>Warfarin 5mg</h4>
+                            <div>Stock: 47 units</div>
+                            <div>Expires: 2 days</div>
+                            <div style="color: #ef4444;">🚨 Critical</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/api.js"></script>
+    <script>
+        let currentTab = 'pos';
+        let cart = {};
+        let medications = [];
+
+        // Update time
+        function updateTime() {
+            document.getElementById('current-time').textContent = new Date().toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            document.querySelectorAll('.app-tab').forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            currentTab = tabName;
+        }
+
+        // POS Functions
+        function addToCart(id, name, price) {
+            if (cart[id]) {
+                cart[id].quantity++;
+            } else {
+                cart[id] = { name, price, quantity: 1 };
+            }
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            
+            let subtotal = 0;
+            for (const [id, item] of Object.entries(cart)) {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                cartItems.innerHTML += `
+                    <div style="padding: 0.5rem; border-bottom: 1px solid #ddd;">
+                        <div><strong>${item.name}</strong></div>
+                        <div>Qty: ${item.quantity} x $${item.price.toFixed(2)} = $${itemTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function searchMedicines(query) {
+            const cards = document.querySelectorAll('.medicine-card');
+            cards.forEach(card => {
+                card.style.display = card.textContent.toLowerCase().includes(query.toLowerCase()) ? 'block' : 'none';
+            });
+        }
+
+        function processPayment() {
+            alert('Payment processed successfully!');
+            cart = {};
+            updateCartDisplay();
+        }
+
+        function printReceipt() {
+            alert('Receipt printed!');
+        }
+
+        function addPatient() {
+            const name = prompt('Enter patient name:');
+            if (name) {
+                const queueHtml = `
+                    <div class="queue-item">
+                        <div style="font-weight: 600;">#${String(Math.floor(Math.random() * 900) + 100)} - ${name}</div>
+                        <div style="font-size: 0.9rem; color: #666;">+1-555-${String(Math.floor(Math.random() * 9000) + 1000)}</div>
+                    </div>
+                `;
+                document.getElementById('patient-queue').insertAdjacentHTML('beforeend', queueHtml);
+            }
+        }
+
+        // Smart Management Functions
+        function runAnalytics() {
+            alert('AI Analytics running...\n\n• Metformin: Critical reorder needed\n• Amoxicillin: Seasonal surge predicted\n• Insulin: Optimal stock levels');
+        }
+
+        // Drug Interactions Functions
+        function addMedication() {
+            const input = document.getElementById('med-input');
+            const medication = input.value.trim();
+            
+            if (medication && !medications.includes(medication)) {
+                medications.push(medication);
+                updateMedicationList();
+                checkDrugInteractions();
+                input.value = '';
+            }
+        }
+
+        function updateMedicationList() {
+            const list = document.getElementById('medication-list');
+            if (medications.length === 0) {
+                list.innerHTML = '';
+                return;
+            }
+            
+            list.innerHTML = `
+                <h4>Current Medications:</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    ${medications.map((med, index) => `
+                        <div style="background: #f0f9ff; border: 1px solid #0ea5e9; padding: 0.5rem 1rem; border-radius: 20px;">
+                            ${med}
+                            <button onclick="removeMedication(${index})" style="background: none; border: none; color: #ef4444; margin-left: 0.5rem;">&times;</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function removeMedication(index) {
+            medications.splice(index, 1);
+            updateMedicationList();
+            checkDrugInteractions();
+        }
+
+        async function checkDrugInteractions() {
+            const results = document.getElementById('interaction-results');
+            
+            if (medications.length < 2) {
+                results.innerHTML = '<div style="text-align: center; color: #6b7280;">Add at least 2 medications to check for interactions</div>';
+                return;
+            }
+
+            try {
+                const response = await window.api.checkDrugInteractions(medications);
+                const interactions = response.interactions || [];
+
+                if (interactions.length === 0) {
+                    results.innerHTML = '<div style="text-align: center; color: #10b981; background: #f0fdf4; padding: 2rem; border-radius: 8px;">✅ No known interactions detected</div>';
+                } else {
+                    results.innerHTML = `
+                        <h4 style="color: #ef4444;">⚠️ Interactions Found:</h4>
+                        ${interactions.map(interaction => `
+                            <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; margin: 1rem 0; border-radius: 0 8px 8px 0;">
+                                <div style="font-weight: 600;">${interaction.drugs ? interaction.drugs.join(' + ') : 'Unknown'}</div>
+                                <div style="color: #6b7280; margin-top: 0.5rem;">${interaction.description || 'Potential interaction detected'}</div>
+                            </div>
+                        `).join('')}
+                    `;
+                }
+            } catch (error) {
+                results.innerHTML = '<div style="text-align: center; color: #ef4444; background: #fef2f2; padding: 2rem; border-radius: 8px;">❌ Error checking interactions</div>';
+            }
+        }
+
+        // Other Functions
+        function scanBarcode() {
+            const barcode = prompt('Enter barcode:');
+            if (barcode) {
+                addToCart('scanned_' + Date.now(), 'Scanned Medicine', 10.00);
+            }
+        }
+
+        function checkInteractions() {
+            alert('Checking interactions for current cart items...');
+        }
+
+        function newPrescription() {
+            alert('Opening new prescription form...');
+        }
+
+        // Initialize
+        updateCartDisplay();
+    </script>
+</body>
+</html>

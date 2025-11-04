@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Medicine Demo | MedTechAI</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .patient-form {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #0ea5e9;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .analysis-results {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .genetic-profile {
+            background: #f0f9ff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        .risk-factor {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .risk-low { border-left: 4px solid #10b981; }
+        .risk-medium { border-left: 4px solid #f59e0b; }
+        .risk-high { border-left: 4px solid #ef4444; }
+        .treatment-plan {
+            background: #f0fdf4;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border-left: 4px solid #10b981;
+        }
+        .demo-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <a href="/">MedTechAI</a>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="/" data-analytics="nav-home">Home</a></li>
+                    <li><a class="nav-link" href="/about/" data-analytics="nav-about">About</a></li>
+                    <li><a class="nav-link" href="/services/" data-analytics="nav-services">Services</a></li>
+                    <li><a class="nav-link" href="/contact/" data-analytics="nav-contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="demo-container">
+        <div class="demo-header">
+            <h1>Personalized Medicine Demo</h1>
+            <p>Experience AI-powered genetic analysis and personalized treatment recommendations</p>
+        </div>
+
+        <div class="patient-form">
+            <h3>Patient Information</h3>
+            <form id="patient-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" min="18" max="100" value="45" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" required>
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ethnicity">Ethnicity</label>
+                        <select id="ethnicity" required>
+                            <option value="caucasian">Caucasian</option>
+                            <option value="african">African American</option>
+                            <option value="asian">Asian</option>
+                            <option value="hispanic">Hispanic</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="condition">Primary Condition</label>
+                        <select id="condition" required>
+                            <option value="diabetes">Type 2 Diabetes</option>
+                            <option value="hypertension">Hypertension</option>
+                            <option value="depression">Depression</option>
+                            <option value="arthritis">Rheumatoid Arthritis</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="medications">Current Medications (optional)</label>
+                    <input type="text" id="medications" placeholder="e.g., Metformin, Lisinopril">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Generate Personalized Analysis
+                </button>
+            </form>
+        </div>
+
+        <div id="analysis-results" class="analysis-results">
+            <h3>Personalized Medicine Analysis</h3>
+            
+            <div class="genetic-profile">
+                <h4>Genetic Profile Summary</h4>
+                <div id="genetic-markers"></div>
+            </div>
+
+            <div>
+                <h4>Risk Assessment</h4>
+                <div id="risk-factors"></div>
+            </div>
+
+            <div class="treatment-plan">
+                <h4>Personalized Treatment Plan</h4>
+                <div id="treatment-recommendations"></div>
+            </div>
+        </div>
+
+        <div class="demo-actions">
+            <a href="/services/" class="btn btn-outline">Back to Services</a>
+            <a href="/contact/" class="btn btn-primary">Get Full Access</a>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('patient-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const ethnicity = document.getElementById('ethnicity').value;
+            const condition = document.getElementById('condition').value;
+            
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = 'Analyzing genetic data...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                generateAnalysis(age, gender, ethnicity, condition);
+                document.getElementById('analysis-results').style.display = 'block';
+                submitBtn.innerHTML = 'Generate New Analysis';
+                submitBtn.disabled = false;
+                
+                // Scroll to results
+                document.getElementById('analysis-results').scrollIntoView({ behavior: 'smooth' });
+            }, 3000);
+        });
+        
+        function generateAnalysis(age, gender, ethnicity, condition) {
+            const geneticMarkers = document.getElementById('genetic-markers');
+            const riskFactors = document.getElementById('risk-factors');
+            const treatmentRecs = document.getElementById('treatment-recommendations');
+            
+            // Generate genetic markers based on condition
+            let markers = '';
+            if (condition === 'diabetes') {
+                markers = `
+                    <p><strong>TCF7L2 Gene:</strong> Variant detected - Increased insulin sensitivity</p>
+                    <p><strong>PPARG Gene:</strong> Normal - Standard response to thiazolidinediones</p>
+                    <p><strong>KCNJ11 Gene:</strong> Variant detected - Enhanced sulfonylurea response</p>
+                `;
+            } else if (condition === 'hypertension') {
+                markers = `
+                    <p><strong>ACE Gene:</strong> DD genotype - Higher response to ACE inhibitors</p>
+                    <p><strong>ADRB1 Gene:</strong> Normal - Standard beta-blocker response</p>
+                    <p><strong>CYP2D6 Gene:</strong> Normal metabolizer - Standard dosing</p>
+                `;
+            }
+            
+            geneticMarkers.innerHTML = markers;
+            
+            // Generate risk factors
+            riskFactors.innerHTML = `
+                <div class="risk-factor risk-medium">
+                    <div>
+                        <strong>Cardiovascular Disease</strong><br>
+                        <small>Based on genetic profile and age</small>
+                    </div>
+                    <span style="color: #f59e0b; font-weight: bold;">MODERATE</span>
+                </div>
+                <div class="risk-factor risk-low">
+                    <div>
+                        <strong>Drug Adverse Reactions</strong><br>
+                        <small>CYP450 enzyme analysis</small>
+                    </div>
+                    <span style="color: #10b981; font-weight: bold;">LOW</span>
+                </div>
+                <div class="risk-factor risk-high">
+                    <div>
+                        <strong>Treatment Resistance</strong><br>
+                        <small>Based on genetic markers</small>
+                    </div>
+                    <span style="color: #ef4444; font-weight: bold;">HIGH</span>
+                </div>
+            `;
+            
+            // Generate treatment recommendations
+            let treatments = '';
+            if (condition === 'diabetes') {
+                treatments = `
+                    <h5>Recommended Medications:</h5>
+                    <ul>
+                        <li><strong>Metformin:</strong> Start with 500mg twice daily (standard response expected)</li>
+                        <li><strong>Glipizide:</strong> Enhanced response - start with lower dose (2.5mg daily)</li>
+                        <li><strong>Avoid:</strong> Rosiglitazone due to genetic variant</li>
+                    </ul>
+                    <h5>Lifestyle Recommendations:</h5>
+                    <ul>
+                        <li>Mediterranean diet (genetic predisposition to better response)</li>
+                        <li>High-intensity interval training 3x/week</li>
+                        <li>Monitor blood glucose 2x daily initially</li>
+                    </ul>
+                `;
+            } else if (condition === 'hypertension') {
+                treatments = `
+                    <h5>Recommended Medications:</h5>
+                    <ul>
+                        <li><strong>Lisinopril:</strong> Optimal choice - start 10mg daily</li>
+                        <li><strong>Amlodipine:</strong> Good alternative - 5mg daily</li>
+                        <li><strong>Monitor:</strong> Potassium levels due to ACE genotype</li>
+                    </ul>
+                    <h5>Lifestyle Recommendations:</h5>
+                    <ul>
+                        <li>DASH diet with reduced sodium (<2g/day)</li>
+                        <li>Regular aerobic exercise 150min/week</li>
+                        <li>Stress management techniques</li>
+                    </ul>
+                `;
+            }
+            
+            treatmentRecs.innerHTML = treatments;
+        }
+    </script>
+</body>
+</html>

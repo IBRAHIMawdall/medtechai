@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow common admin paths (if WordPress or CMS is used later)
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+# Point to production sitemap
+Sitemap: https://medtechai.net/sitemap.xml
