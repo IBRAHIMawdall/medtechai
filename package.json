@@ -9,8 +9,7 @@
   "main": "src/backend/server.js",
   "scripts": {
     "start": "cd src/backend && npm start",
-    "dev": "cd src/backend && npm run dev",
-    "install": "cd src/backend && npm install"
+    "dev": "cd src/backend && npm run dev"
   },
   "keywords": [
     "medical",
