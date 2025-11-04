@@ -2,12 +2,13 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const db = require('../utils/database');
 
-// Google OAuth 2.0 Strategy
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID || '',
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-  callbackURL: process.env.GOOGLE_CALLBACK_URL || '/api/auth/google/callback'
-}, async (accessToken, refreshToken, profile, done) => {
+// Google OAuth 2.0 Strategy (only if credentials provided)
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL || '/api/auth/google/callback'
+  }, async (accessToken, refreshToken, profile, done) => {
   try {
     // Check if user exists with this Google ID
     const existingUser = await db.query(
@@ -64,7 +65,8 @@ passport.use(new GoogleStrategy({
     console.error('Google OAuth error:', error);
     return done(error, null);
   }
-}));
+  }));
+}
 
 // Serialize user for session
 passport.serializeUser((user, done) => {

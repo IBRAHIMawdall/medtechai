@@ -58,7 +58,7 @@ module.exports = {
         frequency: '15-20% in populations'
       }
     },
-    HLA-B: {
+    'HLA-B': {
       '*1502': {
         function: 'Hypersensitivity risk',
         impact: 'Severe hypersensitivity to carbamazepine',
@@ -97,7 +97,7 @@ module.exports = {
       impact: 'Increased statin side effects',
       prevalence: '15-20%'
     },
-    HLA-B: {
+    'HLA-B': {
       level: 'high',
       impact: 'Severe drug hypersensitivities',
       prevalence: '2-5% in Asians'

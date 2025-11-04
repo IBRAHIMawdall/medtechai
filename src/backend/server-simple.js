@@ -1,39 +1,22 @@
 const express = require('express');
-const path = require('path');
+const cors = require('cors');
+const helmet = require('helmet');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
-// Simple middleware
+app.use(helmet());
+app.use(cors());
 app.use(express.json());
 
-// Health check endpoint
 app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'OK',
-        message: 'MedTechAI Backend is running',
-        timestamp: new Date().toISOString(),
-        version: '1.0.0'
-    });
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Serve frontend
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
-
-// Error handling
-app.use((err, req, res, next) => {
-    console.error('Error:', err.stack);
-    res.status(500).json({ error: 'Internal server error' });
+app.get('/', (req, res) => {
+  res.json({ message: 'MedTechAI Backend Running', version: '1.0.0' });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 MedTechAI Backend running on port ${PORT}`);
-    console.log(`📍 Health check: http://localhost:${PORT}/api/health`);
-    console.log(`🌐 Frontend: http://localhost:${PORT}`);
-});
-
-process.on('uncaughtException', (err) => {
-    console.error('Uncaught Exception:', err);
+  console.log(`Server running on port ${PORT}`);
 });

@@ -4,37 +4,10 @@ services:
     env: node
     plan: free
     buildCommand: cd src/backend && npm install
-    startCommand: cd src/backend && npm start
+    startCommand: cd src/backend && node server-simple.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
-      - key: DATABASE_URL
-        fromDatabase:
-          name: medtechai-db
-          property: connectionString
-      - key: JWT_SECRET
-        generateValue: true
-      - key: GROQ_API_KEY
-        sync: false
-      - key: TOGETHER_API_KEY
-        sync: false
-      - key: HUGGINGFACE_API_KEY
-        sync: false
-
-databases:
-  - name: medtechai-db
-    databaseName: medtechai
-    user: medtechai_user
-    plan: free
-
-  - type: static
-    name: medtechai-frontend
-    buildCommand: echo "Static site - no build needed"
-    staticPublishPath: ./src/frontend
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
