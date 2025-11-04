@@ -2,15 +2,7 @@
   "name": "medtechai-platform",
   "version": "1.0.0",
   "description": "AI-Powered Healthcare Management Platform - Clean Production Version",
-  "engines": {
-    "node": ">=22.0.0",
-    "npm": ">=10.0.0"
-  },
-  "main": "src/backend/server.js",
-  "scripts": {
-    "start": "cd src/backend && npm start",
-    "dev": "cd src/backend && npm run dev"
-  },
+  "private": true,
   "keywords": [
     "medical",
     "healthcare",
