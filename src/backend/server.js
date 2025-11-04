@@ -28,6 +28,17 @@ websocketService.initialize(server);
 // Initialize cache service (non-blocking)
 cacheService.connect().catch(err => logger.warn('Redis connection failed:', err.message));
 
+// --- DETAILED STARTUP LOGGING ---
+logger.info('--- MedTechAI Server Starting ---');
+logger.info(`Node Environment: ${process.env.NODE_ENV}`);
+logger.info(`Attempting to listen on PORT: ${PORT}`);
+if (process.env.DATABASE_URL) {
+    logger.info('DATABASE_URL is set.');
+} else {
+    logger.error('DATABASE_URL is NOT SET. Application will likely fail.');
+}
+// --- END LOGGING ---
+
 // Security middleware
 app.use(helmet());
 app.use(cors({
@@ -152,4 +163,11 @@ server.listen(PORT, '0.0.0.0', () => {
         port: PORT,
         environment: process.env.NODE_ENV || 'development'
     });
+    logger.info(`Server running on port ${PORT}`);
+    logger.info(`API docs available at /api-docs`);
+    logger.info('--- MedTechAI Server Ready ---');
+}).on('error', (err) => {
+    logger.error(`Server failed to start: ${err.message}`);
 });
+
+module.exports = app;
