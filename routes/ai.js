@@ -130,4 +130,21 @@ router.post('/personalized-medicine', async (req, res) => {
     }
 });
 
+// POST /api/ai/product-recommendations
+router.post('/product-recommendations', async (req, res) => {
+    try {
+        const { userInput, products } = req.body;
+
+        if (!userInput) {
+            return res.status(400).json({ error: 'User input required for product recommendations' });
+        }
+
+        const recommendations = await aiService.recommendProducts(userInput, products);
+        res.json(recommendations);
+    } catch (error) {
+        console.error('Error generating product recommendations:', error);
+        res.status(500).json({ error: 'Failed to generate product recommendations' });
+    }
+});
+
 module.exports = router;

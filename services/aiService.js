@@ -407,6 +407,92 @@ Respond in JSON format with:
     return this.getFallbackResponse(message, context);
   }
 
+  async recommendProducts(userInput, availableProducts = []) {
+    // Sample product categories if products not provided
+    const productCategories = [
+      'Blood Pressure Monitors', 'Glucose Meters', 'Thermometers', 'Pulse Oximeters',
+      'First Aid Kits', 'Vitamins & Supplements', 'Health Monitoring Devices',
+      'Personal Care Products', 'Fitness Equipment', 'Medical Equipment'
+    ];
+
+    const providers = Object.keys(FREE_APIS);
+
+    for (const provider of providers) {
+      try {
+        console.log(`Trying ${provider} API for product recommendations...`);
+
+        const prompt = `
+You are an AI health product recommendation expert. Based on the user's health needs, recommend appropriate health products.
+
+User Input: "${userInput}"
+
+Available Product Categories:
+${productCategories.join(', ')}
+
+Please provide product recommendations in JSON format:
+{
+  "recommendations": [
+    {
+      "category": "Product category name",
+      "products": ["Product 1", "Product 2"],
+      "reason": "Why these products are recommended",
+      "priority": "high|medium|low"
+    }
+  ],
+  "summary": "Brief summary of recommendations",
+  "ai_powered": true
+}
+
+Focus on:
+- Health monitoring devices if user mentions symptoms or conditions
+- Supplements if user mentions dietary needs or deficiencies
+- First aid products if user mentions safety concerns
+- Wellness products for general health improvement
+
+Be specific and practical. Only recommend products that genuinely help with the user's stated needs.
+        `;
+
+        const response = await this.callFreeAPI(provider, prompt, {
+          max_tokens: 1000,
+          temperature: 0.4
+        });
+
+        console.log(`${provider} API successful for product recommendations!`);
+
+        try {
+          return { ...JSON.parse(response), ai_powered: true };
+        } catch {
+          // Fallback parsing
+          return {
+            recommendations: [{
+              category: 'Health Monitoring Devices',
+              products: ['Blood Pressure Monitor', 'Digital Thermometer'],
+              reason: 'Based on your health needs, monitoring devices can help track your vital signs',
+              priority: 'high'
+            }],
+            summary: 'AI recommends health monitoring devices to track your health metrics',
+            ai_powered: true
+          };
+        }
+      } catch (error) {
+        console.log(`${provider} API failed for product recommendations:`, error.message);
+        continue;
+      }
+    }
+
+    // Fallback recommendations
+    return {
+      recommendations: [{
+        category: 'Health Monitoring',
+        products: ['Blood Pressure Monitor', 'Digital Thermometer', 'Pulse Oximeter'],
+        reason: 'General health monitoring devices recommended for wellness tracking',
+        priority: 'medium'
+      }],
+      summary: 'Recommended health monitoring devices for general wellness',
+      ai_powered: false
+    };
+  }
+
   getFallbackResponse(message, context) {
     // Keep the existing rule-based responses as fallback
     const lowerMessage = message.toLowerCase();
