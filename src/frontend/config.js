@@ -4,7 +4,7 @@
 // Backend API Configuration
 const API_CONFIG = {
     // Render backend URL
-    BASE_URL: 'https://medtechai.onrender.com', // Render backend deployed
+    BASE_URL: 'https://medtechai.onrender.com/api', // Render backend deployed
     
     // Alternative configurations for different environments
     ENVIRONMENTS: {

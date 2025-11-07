@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Shop - MedTechAI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #2563eb;
+            --secondary: #0891b2;
+            --accent: #059669;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --bg: #ffffff;
+            --bg-light: #f8fafc;
+            --border: #e2e8f0;
+            --gradient: linear-gradient(135deg, #2563eb, #0891b2, #059669);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav a:hover, .nav a.active { color: var(--primary); }
+        
+        .cart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        /* Shop Hero */
+        .shop-hero {
+            background: var(--gradient);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .search-bar {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Filters */
+        .filters {
+            background: var(--bg-light);
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .filter-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Products Grid */
+        .section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--text-light);
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        
+        .product-description {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .add-to-cart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: background 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background: #1d4ed8;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stars {
+            color: #fbbf24;
+        }
+        
+        .rating-text {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .hero-title { font-size: 2rem; }
+            .search-bar { flex-direction: column; }
+            .filter-row { flex-direction: column; align-items: stretch; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="#" class="logo">MedTechAI</a>
+            <nav>
+                <ul class="nav">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#" class="active">Shop</a></li>
+                    <li><a href="#">Pharmacy</a></li>
+                    <li><a href="#">AI Services</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="cart-btn">🛒 Cart (0)</button>
+        </div>
+    </header>
+
+    <section class="shop-hero">
+        <div class="container">
+            <h1 class="hero-title">Medical Products Shop</h1>
+            <p class="hero-subtitle">Quality healthcare products for you and your family</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for medical products, medications, equipment...">
+                <button>Search</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="filters">
+        <div class="container">
+            <div class="filter-row">
+                <div class="category-filters">
+                    <button class="filter-btn active">All Products</button>
+                    <button class="filter-btn">Equipment</button>
+                    <button class="filter-btn">Supplies</button>
+                    <button class="filter-btn">Pain Relief</button>
+                    <button class="filter-btn">Vitamins</button>
+                    <button class="filter-btn">Cold & Flu</button>
+                    <button class="filter-btn">Personal Care</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">🌟 Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">🩺</div>
+                    <div class="product-info">
+                        <div class="product-category">Medical Equipment</div>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-text">(124 reviews)</span>
+                        </div>
+                        <h3 class="product-name">Digital Stethoscope</h3>
+                        <p class="product-description">Professional-grade digital stethoscope with noise cancellation</p>
+                        <div class="product-footer">
+                            <span class="product-price">$299.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🌡️</div>
+                    <div class="product-info">
+                        <div class="product-category">Medical Equipment</div>
+                        <div class="rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-text">(89 reviews)</span>
+                        </div>
+                        <h3 class="product-name">Infrared Thermometer</h3>
+                        <p class="product-description">Non-contact digital thermometer with instant readings</p>
+                        <div class="product-footer">
+                            <span class="product-price">$49.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">💊</div>
+                    <div class="product-info">
+                        <div class="product-category">Pain Relief</div>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-text">(256 reviews)</span>
+                        </div>
+                        <h3 class="product-name">Ibuprofen 200mg</h3>
+                        <p class="product-description">Fast-acting pain relief tablets, 100 count bottle</p>
+                        <div class="product-footer">
+                            <span class="product-price">$12.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🩹</div>
+                    <div class="product-info">
+                        <div class="product-category">Medical Supplies</div>
+                        <div class="rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-text">(67 reviews)</span>
+                        </div>
+                        <h3 class="product-name">Adhesive Bandages</h3>
+                        <p class="product-description">Waterproof bandages, assorted sizes, 100 pack</p>
+                        <div class="product-footer">
+                            <span class="product-price">$8.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">💉</div>
+                    <div class="product-info">
+                        <div class="product-category">Medical Equipment</div>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-text">(198 reviews)</span>
+                        </div>
+                        <h3 class="product-name">Blood Pressure Monitor</h3>
+                        <p class="product-description">Automatic digital blood pressure cuff with memory</p>
+                        <div class="product-footer">
+                            <span class="product-price">$79.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🧴</div>
+                    <div class="product-info">
+                        <div class="product-category">Personal Care</div>
+                        <div class="rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-text">(143 reviews)</span>
+                        </div>
+                        <h3 class="product-name">Hand Sanitizer</h3>
+                        <p class="product-description">70% alcohol hand sanitizer, 16 oz pump bottle</p>
+                        <div class="product-footer">
+                            <span class="product-price">$6.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
